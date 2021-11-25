@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">QuizApp_Android</string>
+    <string name="Queestion1">Toronto is the Capital of Canada?</string>
+    <string name="Queestion2">NewDelhi is the Capital of India?</string>
+    <string name="Queestion3">Peacock is the Largest Bird?</string>
+    <string name="Queestion4">Bern is the Capital of Switzerland?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
