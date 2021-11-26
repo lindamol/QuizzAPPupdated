@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     int trueclicks = 0;
     int correctAns = 0;
     int progress = 0;
-    QuestionBank qbank;
+    QuestionBank qbank = new QuestionBank();;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +27,10 @@ public class MainActivity extends AppCompatActivity {
         trueButton = findViewById(R.id.button);
         falseButton = findViewById(R.id.button2);
         progressBar = findViewById(R.id.progressBar);
-        qbank = new QuestionBank();
         Collections.shuffle(qbank.colorlist); //Shuffle Color
         updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
         //True Button
-        trueButton.setOnClickListener(new View.OnClickListener() {
+           trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(qbank.questionslist.get(index).getAnswer()== true) {
@@ -40,30 +39,30 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else { Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
                 index++;
-               updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
+                updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
                 progress = progress+10;
                 progressBar.setProgress(progress);
                 progressBar.setMax(60);
-            }
-        });
+                 }
+           });
         //False Button
-        falseButton.setOnClickListener(new View.OnClickListener() {
+           falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(qbank.questionslist.get(index).getAnswer()== false)
-        {correctAns++;
-            Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_LONG).show();
-           //System.out.println("(InsideFalse)no of correct : "+correctAns);
-        }else{Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_LONG).show();}
+              {correctAns++;
+              Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
+             //System.out.println("(InsideFalse)no of correct : "+correctAns);
+              }else{Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
                 index++;
                 updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
                 progress = progress+10;
                 progressBar.setProgress(progress);
                 progressBar.setMax(60);
                             }
-        });
-   }
+               });
+        }
     private void updateFragment(int Questid,int colorid){
         System.out.println("Index in update is : "+index);
         FragmentManager manager = getSupportFragmentManager();
@@ -71,5 +70,5 @@ public class MainActivity extends AppCompatActivity {
         myFragment myfragobj = myFragment.newInstance(Questid,colorid);
         //layout is connecting with the fragmentclass(name of the frameLayout name) using the fragment object
         manager.beginTransaction().add(R.id.mainframelayout,myfragobj).commit();
-                  }
+           }
 }
