@@ -28,6 +28,15 @@ public class MainActivity extends AppCompatActivity {
         falseButton = findViewById(R.id.button2);
         progressBar = findViewById(R.id.progressBar);
         Collections.shuffle(qbank.colorlist); //Shuffle Color
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            index = savedInstanceState.getInt("currentIndex");
+            progress = savedInstanceState.getInt("progressval");
+        } else {
+            // Probably initialize members with default values for a new instance
+            index = 0;
+            progress= 0;
+        }
         updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
         //True Button
            trueButton.setOnClickListener(new View.OnClickListener() {
@@ -71,4 +80,11 @@ public class MainActivity extends AppCompatActivity {
         //layout is connecting with the fragmentclass(name of the frameLayout name) using the fragment object
         manager.beginTransaction().add(R.id.mainframelayout,myfragobj).commit();
            }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt("currentIndex",index);
+        savedInstanceState.putInt("progressval",progress);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
 }
