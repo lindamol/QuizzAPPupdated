@@ -32,12 +32,10 @@ public class myFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_my, container, false);
         TextView Qtext = (TextView)view.findViewById(R.id.Qtext);
-
         Qtext.setText(getArguments().getInt("Questid"));
-        Qtext.setBackgroundColor(getArguments().getInt("Colorid"));
+        Qtext.setBackgroundResource(getArguments().getInt("Colorid"));
         return view;
     }
 }
