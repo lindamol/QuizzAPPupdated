@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">QuizApp_Android</string>
-    <string name="Question1">ടൊറന്റോയാണ് തലസ്ഥാനം!</string>
-    <string name="Question2">NewDelhi is the Capital of India!</string>
-    <string name="Question3">Peacock is the Largest Bird!</string>
-    <string name="Question4">Bern is the Capital of Switzerland!</string>
-    <string name="Question5">Russia is the Largest Country in the world!</string>
-    <string name="Question6">Linda is the Best 😍 !</string>
+    <string name="app_name">ക്വിസ് ആപ്</string>
+    <string name="Question1">കാനഡയുടെ തലസ്ഥാനമാണ് ടൊറന്റോ!</string>
+    <string name="Question2">ന്യൂഡൽഹിയാണ് ഇന്ത്യയുടെ തലസ്ഥാനം!</string>
+    <string name="Question3">മയിൽ ആണ് ഏറ്റവും വലിയ പക്ഷി!</string>
+    <string name="Question4">സ്വിറ്റ്സർലൻഡിന്റെ തലസ്ഥാനമാണ് ബേൺ!</string>
+    <string name="Question5">ലോകത്തിലെ ഏറ്റവും വലിയ രാജ്യമാണ് റഷ്യ!</string>
+    <string name="Question6">മത്സ്യത്തിന് കണ്ണടയ്ക്കാൻ കഴിയില്ല!</string>
+    <string name="Question7">സ്കോട്ട്ലൻഡിൽ, യൂണികോൺ അവരുടെ ദേശീയ മൃഗമാണ്!</string>
+    <string name="Question8">ബഹിരാകാശത്തേക്ക് അയച്ച ആദ്യത്തെ ജീവനുള്ള മൃഗം പഴ ഈച്ചകളായിരുന്നു!</string>
+    <string name="Question9">ചതുരാകൃതിയിലുള്ള പതാകയില്ലാത്ത ലോകത്തിലെ ഏക രാജ്യമാണ് നേപ്പാൾ!</string>
+    <string name="Question10">ചന്ദ്രൻ ഓസ്‌ട്രേലിയയേക്കാൾ വിശാലമാണ്!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="select_the_number_of_questions">Select the number of Questions</string>
-    <string name="get_the_average">Get the Average</string>
-    <string name="reset_the_saved_result">Reset the saved Result</string>
+    <string name="select_the_number_of_questions">ചോദ്യങ്ങളുടെ എണ്ണം തിരഞ്ഞെടുക്കുക</string>
+    <string name="get_the_average">ശരാശരി നേടുക</string>
+    <string name="reset_the_saved_result">റീസെറ്റ് ചെയ്യുക</string>
+    <string name="TRUE">ശരി</string>
+    <string name="FALSE">തെറ്റ്</string>
 </resources>

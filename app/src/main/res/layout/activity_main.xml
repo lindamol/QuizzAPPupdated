@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/img"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -26,7 +27,7 @@
         android:layout_marginStart="84dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/LightCoral"
-        android:text="True"
+        android:text="@string/TRUE"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainframelayout" />
 
@@ -37,7 +38,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/LightCoral"
-        android:text="False"
+        android:text="@string/FALSE"
         app:layout_constraintStart_toEndOf="@+id/button"
         app:layout_constraintTop_toBottomOf="@+id/mainframelayout" />
 

@@ -94,10 +94,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
-            case R.id.average: { showReport();
+            case R.id.average: { storage.getResult(MainActivity.this);
+                                 showReport();
                                break; }
             case R.id.numofquest:{
-                     storage.getResult(MainActivity.this);
+
 //                System.out.println("Number of questions in each Attempt"+storage.totalqnslist);
 //                System.out.println("Number of questions in each Attempt"+storage.scoreslist);
                 break; }
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private void showReport() {
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
         dialog.setMessage("Your Average is "+storage.findAverage()+ " for "+storage.scoreslist.size() +" attempts");
-        dialog.setTitle("Your total correct answers in "+storage.scoreslist.size()+" is "+storage.sum);
+        dialog.setTitle("Your total correct answers in "+storage.scoreslist.size()+" attempts is "+storage.sum);
         dialog.setPositiveButton("OK",new DialogInterface.OnClickListener() //for Save Button positive
         { public void onClick(DialogInterface dialog,
                                 int which) {
