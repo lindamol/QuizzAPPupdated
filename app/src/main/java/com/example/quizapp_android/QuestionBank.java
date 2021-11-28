@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class QuestionBank {
     ArrayList<Question> questionslist = new ArrayList<Question>(0);
-    ArrayList<Integer>  colorlist = new ArrayList<>();
+    ArrayList<Integer>  colorlist = new ArrayList<>(0);
 
     public ArrayList<Integer> getColorlist() {
         return colorlist;
@@ -16,13 +16,13 @@ public class QuestionBank {
     }
 
     public QuestionBank(){
-        colorlist.add(R.color.Aquamarine);
-        colorlist.add(R.color.Lime);
+        colorlist.add(R.color.CadetBlue);
+        colorlist.add(R.color.Brown);
         colorlist.add(R.color.Olive);
-        colorlist.add(R.color.LightSkyBlue);
-        colorlist.add(R.color.Pink);
-        colorlist.add(R.color.Salmon);
-        colorlist.add(R.color.purple_200);
+        colorlist.add(R.color.Indigo);
+        colorlist.add(R.color.Tomato);
+        colorlist.add(R.color.Teal);
+        colorlist.add(R.color.BlueViolet);
         Question q1 = new Question(R.string.Question1,false,colorlist.get(0));
         Question q2 = new Question(R.string.Question2,true,colorlist.get(1));
         Question q3 = new Question(R.string.Question3,false,colorlist.get(2));
@@ -35,12 +35,9 @@ public class QuestionBank {
         questionslist.add(q4);
         questionslist.add(q5);
         questionslist.add(q6);
+       // Collections.shuffle(colorlist);
+
 
     }
-//     public int calculateMarks(int falseclicks,int trueclicks){
-//        int marks = trueclicks;
-//        return marks;
-//
-//     }
 
 }

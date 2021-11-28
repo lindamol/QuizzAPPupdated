@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuizApp_Android</string>
+    <string name="Question1">ടൊറന്റോയാണ് തലസ്ഥാനം!</string>
+    <string name="Question2">NewDelhi is the Capital of India!</string>
+    <string name="Question3">Peacock is the Largest Bird!</string>
+    <string name="Question4">Bern is the Capital of Switzerland!</string>
+    <string name="Question5">Russia is the Largest Country in the world!</string>
+    <string name="Question6">Linda is the Best 😍 !</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_the_number_of_questions">Select the number of Questions</string>
+    <string name="get_the_average">Get the Average</string>
+    <string name="reset_the_saved_result">Reset the saved Result</string>
+</resources>

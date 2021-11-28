@@ -15,18 +15,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.sql.SQLOutput;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     Button trueButton, falseButton;
     ProgressBar progressBar;
     int index = 0;
-    int falseclicks =0;
-    int trueclicks = 0;
     int attemptcount = 0;
     int correctAns = 0;
     QuestionBank qbank = new QuestionBank();
-
+    Storage storage;
     int Qntbanklength = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         falseButton = findViewById(R.id.button2);
         progressBar = findViewById(R.id.progressBar);
         Qntbanklength = qbank.questionslist.size();
-       // Collections.shuffle(qbank.colorlist); //Shuffle Color
-        if (savedInstanceState != null) {
+        storage = ((myApp)getApplication()).getStorage();
+          if (savedInstanceState != null) {
             // Restore value of members from saved state
             index = savedInstanceState.getInt("currentIndex");
             Qntbanklength = index;
@@ -47,18 +46,13 @@ public class MainActivity extends AppCompatActivity {
            // Probably initialize members with default values for a new instance
             index = 0;
             updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
-
                              }
         //True Button
            trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(index == qbank.questionslist.size()-1)
-                { alertDialog();
-                    index = 0;
-                    updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
-                    updateProgressBar();
-                }
+                { alertDialog();}
                 else
                 {
                    if(qbank.questionslist.get(index).getAnswer()== true) {
@@ -76,27 +70,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(index == qbank.questionslist.size()-1)
-                {
-                 alertDialog();
-                    index = 0;
-                    updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
-                    updateProgressBar();
-                }
+                {alertDialog();}
                 else{
                 if(qbank.questionslist.get(index).getAnswer()== false)
-              {correctAns++;
-              Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
-             //System.out.println("(InsideFalse)no of correct : "+correctAns);
-              }else{Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
+                  {correctAns++;
+                    Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
+                  }else{Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
                 index++;
                 updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
-                //progress = progress+10;
                 updateProgressBar();}
-                            }
+            }
                });
-           //Menu
-    }
-
+   }
+      //MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -104,20 +90,20 @@ public class MainActivity extends AppCompatActivity {
         //return super.onCreateOptionsMenu(menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
-            case R.id.average: {
-                break;
-            }
+            case R.id.average: { showReport();
+                               break; }
             case R.id.numofquest:{
-                break;
-            }
+                     storage.getResult(MainActivity.this);
+//                System.out.println("Number of questions in each Attempt"+storage.totalqnslist);
+//                System.out.println("Number of questions in each Attempt"+storage.scoreslist);
+                break; }
             case R.id.reset:{
-                break;
-            }
+                storage.resetResult(MainActivity.this);
+                break; }
         }
         return  true ;
     }
@@ -137,9 +123,8 @@ public class MainActivity extends AppCompatActivity {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
-    private void alertDialog() {
+    private void alertDialog() {//First Alert
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-       // String prodname = ((myAPP)getApplication()).getManager().productArray.get(selectedPosition).getProductname();
         dialog.setTitle("CONGRATULATIONS!!!!!");
         dialog.setMessage("YOUR TOTAL SCORE IS  "+correctAns+ " out of " +qbank.questionslist.size());
         dialog.setPositiveButton("SAVE",new DialogInterface.OnClickListener() //for Save Button positive
@@ -147,11 +132,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog,
                                 int which) {
                 attemptcount++;
-                Toast.makeText(getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
-                Collections.shuffle(qbank.colorlist);
+                storage.saveResult(MainActivity.this,qbank.questionslist.size(),correctAns);
+                correctAns = 0;
+                Toast.makeText(getApplicationContext(),"Save is clicked",Toast.LENGTH_LONG).show();
+               Collections.shuffle(qbank.colorlist);
+                Collections.shuffle(qbank.questionslist);
             }
         });
-        dialog.setNegativeButton("IGNORE",new DialogInterface.OnClickListener() { // for cancel button Negative
+        dialog.setNegativeButton("IGNORE",new DialogInterface.OnClickListener() { // for IGNORE button Negative
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(),"Ignore is clicked",Toast.LENGTH_LONG).show();
@@ -161,10 +149,30 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
         Collections.shuffle(qbank.colorlist);
+        Collections.shuffle(qbank.questionslist);
+        index = 0;
+        updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
+        updateProgressBar();
     }
     private void updateProgressBar()
-    {
-        progressBar.setProgress(index);
-        progressBar.setMax(qbank.questionslist.size());
+    { progressBar.setProgress(index);
+      progressBar.setMax(qbank.questionslist.size()-1);
     }
+    private void showReport() {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setMessage("Your Average is "+storage.findAverage()+ " for "+storage.scoreslist.size() +" attempts");
+        dialog.setTitle("Your total correct answers in "+storage.scoreslist.size()+" is "+storage.sum);
+        dialog.setPositiveButton("OK",new DialogInterface.OnClickListener() //for Save Button positive
+        { public void onClick(DialogInterface dialog,
+                                int which) {
+                           }
+        });
+        dialog.setNegativeButton("SAVE",new DialogInterface.OnClickListener() { // for save button Negative
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                           }
+        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
+            }
 }
