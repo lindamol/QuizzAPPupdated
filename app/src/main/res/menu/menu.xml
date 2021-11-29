@@ -7,6 +7,10 @@
 
     </item>
     <item
+        android:title="Add new Question"
+        android:id="@+id/newQuestion">
+    </item>
+    <item
         android:title="@string/select_the_number_of_questions"
         android:id="@+id/numofquest">
     </item>
@@ -14,4 +18,5 @@
         android:title="@string/reset_the_saved_result"
         android:id="@+id/reset">
     </item>
+
 </menu>

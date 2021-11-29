@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLOutput;
@@ -27,20 +29,22 @@ public class MainActivity extends AppCompatActivity {
     QuestionBank qbank = new QuestionBank();
     Storage storage;
     int Qntbanklength = 0;
-    @Override
+    int listsize = qbank.questionslist.size();
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         trueButton = findViewById(R.id.button);
         falseButton = findViewById(R.id.button2);
         progressBar = findViewById(R.id.progressBar);
-        Qntbanklength = qbank.questionslist.size();
-        storage = ((myApp)getApplication()).getStorage();
+        Qntbanklength = listsize;
+                storage = ((myApp)getApplication()).getStorage();
           if (savedInstanceState != null) {
             // Restore value of members from saved state
             index = savedInstanceState.getInt("currentIndex");
-            Qntbanklength = index;
-            updateProgressBar();
+            correctAns = savedInstanceState.getInt("correctanswers");
+            Qntbanklength = savedInstanceState.getInt("qbnklength");
+              updateProgressBar();
             updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
                    } else {
            // Probably initialize members with default values for a new instance
@@ -51,35 +55,32 @@ public class MainActivity extends AppCompatActivity {
            trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(index == qbank.questionslist.size()-1)
-                { alertDialog();}
-                else
-                {
-                   if(qbank.questionslist.get(index).getAnswer()== true) {
-                    correctAns++;
-                    Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
-                    }
-                    else { Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
-                    index++;
-                    updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
-                    updateProgressBar();}
-                 }
+                if(index == listsize-1)
+                { checkTrueorFalse();
+                alertDialog();
+                updateProgressBar();
+                }
+                else { checkTrue();}
+                index++;
+                updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
+                updateProgressBar();
+                               }
            });
         //False Button
            falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(index == qbank.questionslist.size()-1)
-                {alertDialog();}
-                else{
-                if(qbank.questionslist.get(index).getAnswer()== false)
-                  {correctAns++;
-                    Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
-                  }else{Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
+                //4
+                if(index == listsize-1)
+                {  checkTrueorFalse();
+                    updateProgressBar();
+                alertDialog();
+                             }
+                else { checkFalse(); }
                 index++;
+                updateProgressBar();
                 updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
-                updateProgressBar();}
-            }
+                                    }
                });
    }
       //MENU
@@ -96,14 +97,48 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.average: { storage.getResult(MainActivity.this);
                                  showReport();
-                               break; }
-            case R.id.numofquest:{
+                                 break; }
+            case R.id.numofquest:{   FragmentManager fragmanager = getSupportFragmentManager();
+                fragmanager.findFragmentById(R.id.mainframelayout);//Connected
+                AddnumberQuestion fragment1 = new AddnumberQuestion();
+                //layout is connecting with the fragmentclass(name of the frameLayout name) using the fragment object
+                fragmanager.beginTransaction().replace(R.id.mainframelayout,fragment1).commit();
+                falseButton.setVisibility(View.INVISIBLE);
+                trueButton.setVisibility(View.INVISIBLE);
+                try {
+                    Intent intent = getIntent();
+                    int newQuestioncount = intent.getIntExtra("newnumber",0);
+                    System.out.println("This is my question count:"+newQuestioncount);
+                    listsize = newQuestioncount;
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
 
-//                System.out.println("Number of questions in each Attempt"+storage.totalqnslist);
-//                System.out.println("Number of questions in each Attempt"+storage.scoreslist);
-                break; }
+                               break; }
+            case R.id.newQuestion:{
+                FragmentManager fragmanager = getSupportFragmentManager();
+                fragmanager.findFragmentById(R.id.mainframelayout);//Connected
+                AddQuestionFragment fragment = new AddQuestionFragment();
+                //layout is connecting with the fragmentclass(name of the frameLayout name) using the fragment object
+                fragmanager.beginTransaction().replace(R.id.mainframelayout,fragment).commit();
+                falseButton.setVisibility(View.INVISIBLE);
+                trueButton.setVisibility(View.INVISIBLE);
+                try {
+                    Intent intent = getIntent();
+                    String newQuestion = intent.getStringExtra("name");
+                    Boolean newanswer = intent.getBooleanExtra("answer",false);
+                    System.out.println("My new Question is"+newQuestion);
+                    System.out.println("My new Answer is"+newanswer);
+
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
             case R.id.reset:{
                 storage.resetResult(MainActivity.this);
+                index=0;
+                updateProgressBar();
                 break; }
         }
         return  true ;
@@ -111,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateFragment(int Questid, int colorid){
         System.out.println("Index in update is : "+index);
+        System.out.println("Index in list is : "+listsize+"..."+qbank.questionslist.size());
         FragmentManager manager = getSupportFragmentManager();
         manager.findFragmentById(R.id.mainframelayout);//Connected
         myFragment myfragobj = myFragment.newInstance(Questid,colorid);
@@ -121,30 +157,33 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt("currentIndex",index);
         savedInstanceState.putInt("qbnklength",Qntbanklength);
+        savedInstanceState.putInt("correctanswers",correctAns);
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
     private void alertDialog() {//First Alert
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
         dialog.setTitle("CONGRATULATIONS!!!!!");
-        dialog.setMessage("YOUR TOTAL SCORE IS  "+correctAns+ " out of " +qbank.questionslist.size());
+        dialog.setMessage("YOUR TOTAL SCORE IS  "+correctAns+ " out of " +listsize);
         dialog.setPositiveButton("SAVE",new DialogInterface.OnClickListener() //for Save Button positive
         {
             public void onClick(DialogInterface dialog,
                                 int which) {
                 attemptcount++;
-                storage.saveResult(MainActivity.this,qbank.questionslist.size(),correctAns);
-                correctAns = 0;
-                Toast.makeText(getApplicationContext(),"Save is clicked",Toast.LENGTH_LONG).show();
+                storage.saveResult(MainActivity.this,listsize,correctAns);
+               correctAns = 0;
+                index=0;
+                Toast.makeText(getApplicationContext(),"Save is clicked",Toast.LENGTH_SHORT).show();
                Collections.shuffle(qbank.colorlist);
                 Collections.shuffle(qbank.questionslist);
+                //progressBar.setProgress(index);
+               updateProgressBar();// 6
             }
         });
         dialog.setNegativeButton("IGNORE",new DialogInterface.OnClickListener() { // for IGNORE button Negative
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(),"Ignore is clicked",Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(),"Ignore is clicked",Toast.LENGTH_SHORT).show();
             }
         });
         AlertDialog alertDialog=dialog.create();
@@ -152,12 +191,33 @@ public class MainActivity extends AppCompatActivity {
         Collections.shuffle(qbank.colorlist);
         Collections.shuffle(qbank.questionslist);
         index = 0;
+        //correctAns=0;
+        progressBar.setProgress(index);
         updateFragment(qbank.questionslist.get(index).getQuestion(),qbank.getColorlist().get(index));
-        updateProgressBar();
+          }
+    private void checkTrueorFalse() {
+        if (qbank.questionslist.get(index).getAnswer() == true) {
+            checkTrue();
+        }
+        else {checkFalse();}
+    }
+    private void checkTrue(){
+        if(qbank.questionslist.get(index).getAnswer()== true) {
+            correctAns++;
+            Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
+        }
+        else { Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
+    }
+    private void checkFalse()
+    {
+        if(qbank.questionslist.get(index).getAnswer()== false)
+        {correctAns++;
+            Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
+        }else{Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
     }
     private void updateProgressBar()
     { progressBar.setProgress(index);
-      progressBar.setMax(qbank.questionslist.size()-1);
+      progressBar.setMax(listsize-1);
     }
     private void showReport() {
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
@@ -176,4 +236,5 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
             }
-}
+
+   }

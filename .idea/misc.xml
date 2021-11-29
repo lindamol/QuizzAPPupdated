@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Manjaly/Documents/Android/QuizApp_Android/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Manjaly/Documents/Android/QuizApp_Android/app/src/main/res/layout/activity_add_question.xml" value="0.18564814814814815" />
         <entry key="..\:/Users/Manjaly/Documents/Android/QuizApp_Android/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Manjaly/Documents/Android/QuizApp_Android/app/src/main/res/layout/fragment_add_question.xml" value="0.264" />
+        <entry key="..\:/Users/Manjaly/Documents/Android/QuizApp_Android/app/src/main/res/layout/fragment_addnumber_question.xml" value="0.17525773195876287" />
         <entry key="..\:/Users/Manjaly/Documents/Android/QuizApp_Android/app/src/main/res/layout/fragment_my.xml" value="0.1" />
         <entry key="..\:/Users/Manjaly/Documents/Android/QuizApp_Android/app/src/main/res/menu/menu.xml" value="0.264" />
       </map>
