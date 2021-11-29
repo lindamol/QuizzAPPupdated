@@ -7,7 +7,7 @@
 
     </item>
     <item
-        android:title="Add new Question"
+        android:title="@string/add_new_question"
         android:id="@+id/newQuestion">
     </item>
     <item

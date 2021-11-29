@@ -47,10 +47,6 @@ public class QuestionBank {
         questionslist.add(q8);
         questionslist.add(q9);
         questionslist.add(q10);
-
-
-
-
     }
 
 }

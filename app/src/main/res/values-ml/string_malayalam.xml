@@ -16,6 +16,17 @@
     <string name="select_the_number_of_questions">ചോദ്യങ്ങളുടെ എണ്ണം തിരഞ്ഞെടുക്കുക</string>
     <string name="get_the_average">ശരാശരി നേടുക</string>
     <string name="reset_the_saved_result">റീസെറ്റ് ചെയ്യുക</string>
+    <string name="add_new_question">പുതിയ ചോദ്യം ചേർക്കുക</string>
     <string name="TRUE">ശരി</string>
     <string name="FALSE">തെറ്റ്</string>
-</resources>
+    <string name="correctanswer">നിങ്ങളുടെ ആകെ സ്‌കോർ</string>
+    <string name="outof">പുറത്ത് </string>
+    <string name="correcttoast">നിങ്ങളുടെ ഉത്തരം ശരിയാണ്</string>
+    <string name="wrongtoast">നിങ്ങളുടെ ഉത്തരം തെറ്റാണ്</string>
+    <string name="average">നിങ്ങളുടെ ശരാശരി </string>
+    <string name="nxtavfor">വേണ്ടി </string>
+    <string name="attempts">ശ്രമങ്ങൾ</string>
+    <string name="savebutton">സേവ്</string>
+    <string name="ignorebutton">അവഗണിക്കുക</string>
+    <string name="okbutton">ശരി</string>
+  </resources>

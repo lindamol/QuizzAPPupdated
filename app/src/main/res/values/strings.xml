@@ -15,6 +15,17 @@
     <string name="select_the_number_of_questions">Select the number of Questions</string>
     <string name="get_the_average">Get the Average</string>
     <string name="reset_the_saved_result">Reset the saved Result</string>
+    <string name="add_new_question">Add new Question</string>
     <string name="TRUE">True</string>
     <string name="FALSE">False</string>
+    <string name="correctanswer">YOUR TOTAL SCORE IS</string>
+    <string name="outof">out of </string>
+    <string name="correcttoast">Your Answer is Correct</string>
+    <string name="wrongtoast">Your Answer is Wrong </string>
+    <string name="average">Your Average is </string>
+   <string name="nxtavfor">for</string>
+    <string name="attempts">attempts</string>
+    <string name="savebutton">SAVE</string>
+    <string name="ignorebutton">IGNORE</string>
+    <string name="okbutton">OK</string>
 </resources>

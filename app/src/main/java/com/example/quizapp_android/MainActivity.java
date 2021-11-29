@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button trueButton, falseButton;
     ProgressBar progressBar;
     int index = 0;
+    double average = 0;
     int attemptcount = 0;
     int correctAns = 0;
     QuestionBank qbank = new QuestionBank();
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
-            case R.id.average: { storage.getResult(MainActivity.this);
+            case R.id.average: {
+                                 storage.getResult(MainActivity.this);
                                  showReport();
                                  break; }
             case R.id.numofquest:{   FragmentManager fragmanager = getSupportFragmentManager();
@@ -138,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.reset:{
                 storage.resetResult(MainActivity.this);
                 index=0;
+                attemptcount=0;
+                storage.average =0;
                 updateProgressBar();
                 break; }
         }
@@ -145,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateFragment(int Questid, int colorid){
-        System.out.println("Index in update is : "+index);
-        System.out.println("Index in list is : "+listsize+"..."+qbank.questionslist.size());
+        //System.out.println("Index in update is : "+index);
+        //System.out.println("Index in list is : "+listsize+"..."+qbank.questionslist.size());
         FragmentManager manager = getSupportFragmentManager();
         manager.findFragmentById(R.id.mainframelayout);//Connected
         myFragment myfragobj = myFragment.newInstance(Questid,colorid);
@@ -163,24 +167,25 @@ public class MainActivity extends AppCompatActivity {
     }
     private void alertDialog() {//First Alert
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-        dialog.setTitle("CONGRATULATIONS!!!!!");
-        dialog.setMessage("YOUR TOTAL SCORE IS  "+correctAns+ " out of " +listsize);
-        dialog.setPositiveButton("SAVE",new DialogInterface.OnClickListener() //for Save Button positive
+        //dialog.setTitle("CONGRATULATIONS!!!!!");
+        dialog.setMessage(getResources().getString(R.string.correctanswer)+""+correctAns+ getResources().getString(R.string.outof) +listsize);
+        dialog.setPositiveButton(getResources().getString(R.string.savebutton),new DialogInterface.OnClickListener() //for Save Button positive
         {
             public void onClick(DialogInterface dialog,
                                 int which) {
                 attemptcount++;
                 storage.saveResult(MainActivity.this,listsize,correctAns);
+                //attemptcount=0;
                correctAns = 0;
                 index=0;
                 Toast.makeText(getApplicationContext(),"Save is clicked",Toast.LENGTH_SHORT).show();
-               Collections.shuffle(qbank.colorlist);
+                Collections.shuffle(qbank.colorlist);
                 Collections.shuffle(qbank.questionslist);
-                //progressBar.setProgress(index);
-               updateProgressBar();// 6
+                progressBar.setProgress(index);
+               //updateProgressBar();// 6
             }
         });
-        dialog.setNegativeButton("IGNORE",new DialogInterface.OnClickListener() { // for IGNORE button Negative
+        dialog.setNegativeButton(getResources().getString(R.string.ignorebutton),new DialogInterface.OnClickListener() { // for IGNORE button Negative
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(),"Ignore is clicked",Toast.LENGTH_SHORT).show();
@@ -204,31 +209,32 @@ public class MainActivity extends AppCompatActivity {
     private void checkTrue(){
         if(qbank.questionslist.get(index).getAnswer()== true) {
             correctAns++;
-            Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.correcttoast), Toast.LENGTH_SHORT).show();
         }
-        else { Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
+        else { Toast.makeText(MainActivity.this, getResources().getString(R.string.wrongtoast), Toast.LENGTH_SHORT).show();}
     }
     private void checkFalse()
     {
         if(qbank.questionslist.get(index).getAnswer()== false)
         {correctAns++;
-            Toast.makeText(MainActivity.this, "Your Answer is Correct ", Toast.LENGTH_SHORT).show();
-        }else{Toast.makeText(MainActivity.this, "Your Answer is Wrong ", Toast.LENGTH_SHORT).show();}
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.correcttoast), Toast.LENGTH_SHORT).show();
+        }else{Toast.makeText(MainActivity.this, getResources().getString(R.string.wrongtoast), Toast.LENGTH_SHORT).show();}
     }
     private void updateProgressBar()
-    { progressBar.setProgress(index);
-      progressBar.setMax(listsize-1);
+    { progressBar.setProgress(index);//0,1,2,,3,4
+      progressBar.setMax(listsize-1);//9
     }
     private void showReport() {
-        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-        dialog.setMessage("Your Average is "+storage.findAverage()+ " for "+storage.scoreslist.size() +" attempts");
-        dialog.setTitle("Your total correct answers in "+storage.scoreslist.size()+" attempts is "+storage.sum);
-        dialog.setPositiveButton("OK",new DialogInterface.OnClickListener() //for Save Button positive
+            double average = storage.findAverage();
+            AlertDialog.Builder dialog=new AlertDialog.Builder(this);//storage.scoreslist.size()
+        dialog.setMessage(getResources().getString(R.string.average)+storage.findAverage()+ " "+getResources().getString(R.string.nxtavfor)+attemptcount+" "+getResources().getString(R.string.attempts));
+       // dialog.setTitle("Your total correct answers in "+storage.scoreslist.size()+" attempts is "+storage.sum);
+                  dialog.setPositiveButton("OK",new DialogInterface.OnClickListener() //for Save Button positive
         { public void onClick(DialogInterface dialog,
                                 int which) {
                            }
         });
-        dialog.setNegativeButton("SAVE",new DialogInterface.OnClickListener() { // for save button Negative
+        dialog.setNegativeButton(getResources().getString(R.string.savebutton),new DialogInterface.OnClickListener() { // for save button Negative
             @Override
             public void onClick(DialogInterface dialog, int which) {
                            }

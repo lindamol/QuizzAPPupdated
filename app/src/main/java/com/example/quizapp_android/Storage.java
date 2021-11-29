@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class Storage {
     double sum = 0;
+    double average = 0;
+    int myattempt = 0;
     ArrayList<Integer> scoreslist = new ArrayList<>(0);
     ArrayList<Integer> totalqnslist = new ArrayList<>(0);
     String filename = "result1.txt";
@@ -93,7 +95,8 @@ public class Storage {
             }
     }
     public double findAverage(){
-        double average = 0;
+        average = 0;
+        myattempt++;
         sum=0;
         for (int i : scoreslist) {
             sum += i;
